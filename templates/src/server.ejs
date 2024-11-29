@@ -1,0 +1,23 @@
+import express from 'express';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import routes from './controllers/index';
+import models from './database';
+import databaseMiddleware from './middleware/databaseMiddleware';
+dotenv.config({path:"development.env"});
+
+
+
+const app = express();
+const router=express.Router();
+ routes(router);
+ models().then(async (res) => {
+    // DATABASE CONNECTED
+});
+app.use(bodyParser.json());
+app.use(databaseMiddleware);
+app.use('/api/v1', router);
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
